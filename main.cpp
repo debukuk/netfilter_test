@@ -66,7 +66,8 @@ bool filter(unsigned char *buf, int size) {
 			int tcp_header_length = ((p.tcp.data_offset & 0xf0) >> 4) * 4;
 			int tcp_data_length = size - ip_header_length - tcp_header_length;
 
-			if (buf[40] == 'G' && buf[41] == 'E' && buf[42] == 'T') { // check method is get
+			if ((buf[40] == 'G' && buf[41] == 'E' && buf[42] == 'T') || // check method is get
+			   (buf[40] == 'P' && buf[41] == 'O' && buf[42] == 'S' && buf[43] == 'T')) { // check method is post
 				if (tcp_data_length < 0x100)
 					memcpy(payload, &buf[40], tcp_data_length);
 				else 
@@ -183,7 +184,7 @@ int main(int argc, char **argv)
 	int rv;
 	char buf[4096] __attribute__ ((aligned));
 
-	//holy(); // set for network setting
+	holy(); // set for network setting
 
 	if (argc < 2) {
 		usage();
