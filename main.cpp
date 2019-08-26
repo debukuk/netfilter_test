@@ -163,6 +163,7 @@ static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg,
 	printf("entering callback\n");
 	if (filter_chk == 1) {
 		printf("%s filtered!\n", domain);
+		filter_chk = 0;
 		return nfq_set_verdict(qh, id, NF_DROP, 0, NULL);
 	}else {
 		return nfq_set_verdict(qh, id, NF_ACCEPT, 0, NULL);
